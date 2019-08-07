@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = ''
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'TODO: Put your gems public repo URL here.'
+  spec.metadata['source_code_uri'] = 'https://github.com/Mojicator/Conway-s-game-of-life'
   # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Specify which files should be added to the gem when it is released.

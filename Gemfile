@@ -1,4 +1,6 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-# Specify your gem's dependencies in game_of_life.gemspec
-gemspec
+source 'https://rubygems.org'
+
+gem 'gosu', '~>0.14'
+gem 'os', '~>1.0'
