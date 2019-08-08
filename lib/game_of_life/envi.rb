@@ -1,12 +1,11 @@
 # frozen_string_literal: false
 
 require 'os'
-require_relative './cell'
 
-# terminal enviroment
+# Terminal enviroment
 class Envi
-  attr_accessor :max_x, :max_y, :enviroment
-  attr_reader :withe_list, :black_list
+  attr_accessor :max_x, :max_y, :enviroment, :testing, :delay
+  attr_reader :withe_list, :black_list, :gen
 
   # Format: [j, i]
   # [j-1, i-1] [j-1, i  ] [j-1, i+1]
@@ -15,23 +14,24 @@ class Envi
   RULE = [[-1, -1], [-1, 0], [-1, 1], [0, 1],
           [1, 1], [1, 0], [1, -1], [0, -1]].freeze
 
-  def initialize(cells = 50, delay = 0.2, dim_x = 60, dim_y = 20)
+  def initialize(cells = 50, gen = 100, dim_x = 60, dim_y = 20)
     @max_x = dim_x
     @max_y = dim_y
     @cells = cells
-    @delay = delay
-    @enviroment = Array.new(@max_y) { Array.new(@max_x, Cell.new(false)) }
+    @gen = gen
+    @delay = 0.2
+    @enviroment = build_enviroment
     @withe_list = []
     @black_list = []
-    plant_cells
+    @testing = false
   end
 
   def to_print
     @enviroment.each do |row|
       row.each do |item|
-        case item.state
-        when false then print '.'
-        when true then print '█'
+        case item
+        when 0 then print '.'
+        when 1 then print '█'
         end
       end
       puts
@@ -51,7 +51,7 @@ class Envi
       # ord_aux = 0 if ord_aux > @max_x - 1
       abs_aux = fix_position(abs, item, 0, max_y)
       ord_aux = fix_position(ord, item, 1, max_x)
-      neighbours += 1 if @enviroment[abs_aux][ord_aux].state
+      neighbours += 1 if @enviroment[abs_aux][ord_aux] == 1
     end
     neighbours
   end
@@ -66,18 +66,19 @@ class Envi
         end
       end
     end
+    @gen -= 1
   end
 
   def you_are_alive
     @withe_list.each do |item|
-      @enviroment[item[0]][item[1]] = Cell.new(true)
+      @enviroment[item[0]][item[1]] = 1
     end
     @withe_list = []
   end
 
   def you_are_dead
     @black_list.each do |item|
-      @enviroment[item[0]][item[1]] = Cell.new(false)
+      @enviroment[item[0]][item[1]] = 0
     end
     @black_list = []
   end
@@ -86,21 +87,24 @@ class Envi
     dewey
     you_are_alive
     you_are_dead
-    sleep @delay
+    sleep @delay unless testing
   end
 
   def terminal_mode
-    to_print
-    run_game
-    OS.windows? ? system('cls') : system('clear')
+    while @gen >= 0
+      run_game
+      to_print
+      OS.windows? ? system('cls') : system('clear')
+    end
   end
 
-  def plant_cells
-    @cells.times { @enviroment[rand(@max_y)][rand(@max_x)] = Cell.new(true) }
-    # @enviroment[0][1] = Cell.new(true)
-    # @enviroment[1][2] = Cell.new(true)
-    # @enviroment[2][0] = Cell.new(true)
-    # @enviroment[2][1] = Cell.new(true)
-    # @enviroment[2][2] = Cell.new(true)
+  def plant_cells(envi)
+    @cells.times { envi[rand(@max_y)][rand(@max_x)] = 1 }
+  end
+
+  def build_enviroment
+    envi_temp = Array.new(@max_y) { Array.new(@max_x, 0) }
+    plant_cells(envi_temp)
+    envi_temp
   end
 end

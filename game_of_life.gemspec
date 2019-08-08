@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'game_of_life/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'game_of_life'
+  spec.name          = 'game_of_life_om'
   spec.version       = GameOfLife::VERSION
   spec.authors       = ['Mojicator']
   spec.email         = ['oscar2mojica@gmail.com']
@@ -11,10 +11,10 @@ Gem::Specification.new do |spec|
   spec.summary       = 'It is a cellular automaton devised by the British
                         mathematician John Horton Conway in 1970.'
   spec.description   = "Conway's game of life"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = 'https://rubygems.org/gems/game_of_life_om'
   spec.license       = 'MIT'
 
-  spec.metadata['allowed_push_host'] = ''
+  # spec.metadata['allowed_push_host'] = ''
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/Mojicator/Conway-s-game-of-life'
