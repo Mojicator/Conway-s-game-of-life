@@ -17,7 +17,7 @@ The initial pattern constitutes the **seed** of the system. The first generation
 
 ## Installation
 
-Download and install the gem directly from directory **pkg**.
+Download and install the gem directly from **pkg** directory.
 
 ```ruby
 gem install ./pkg/game_of_life_om-0.1.0.gem
